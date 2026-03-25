@@ -8,9 +8,7 @@ export const createUser = async (req, res) => {
     }
 
     const existingUser = await User.findOne({
-      name,
       email,
-      password,
     });
 
     if (existingUser) {
