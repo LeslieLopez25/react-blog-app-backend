@@ -1,28 +1,60 @@
 import User from "../Models/user.js";
+import bcrypt from "bcryptjs";
 
-export const createUser = async (req, res) => {
+export const getUser = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
-    if (!name || !email || !password) {
-      return res.status(400).json({ message: "All fields are required" });
+    const user = await User.findById(req.user.id).select("-password");
+    if (!user) return res.status(404).json({ message: "User not found" });
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const updateUser = async (req, res) => {
+  try {
+    const { name, email } = req.body;
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user.id,
+      { name, email },
+      { new: true, runValidators: true },
+    ).select("-password");
+    if (!updatedUser)
+      return res.status(404).json({ message: "User not found" });
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const updatePassword = async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({ message: "Both fields are required" });
     }
 
-    const existingUser = await User.findOne({
-      email,
-    });
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ message: "User not found" });
 
-    if (existingUser) {
-      return res.status(400).json({ message: "User already exists" });
-    }
+    const isMatch = await user.comparePassword(currentPassword);
+    if (!isMatch)
+      return res.status(401).json({ message: "Current password is incorrect" });
 
-    const user = new User({
-      name,
-      email,
-      password,
-    });
+    user.password = newPassword;
+    await user.save();
+    res.status(200).json({ message: "Password updated successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
-    const savedUser = await user.save();
-    res.status(201).json(savedUser);
+export const deleteUser = async (req, res) => {
+  try {
+    const user = await User.findByIdAndDelete(req.user.id);
+    if (!user) return res.status(404).json({ message: "User not found" });
+    res.clearCookie("token");
+    res.status(200).json({ message: "Account deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
