@@ -20,6 +20,8 @@ const fileFilter = (req, file, cb) => {
   } else {
     cb(null, false);
   }
+
+  cb(new Error("Only .jpeg, .jpg and .png files are allowed!"));
 };
 
 const upload = multer({
