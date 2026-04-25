@@ -1,30 +1,30 @@
 import express from "express";
 import {
-  createBlog,
-  getAllBlogs,
-  getBlogById,
-  updateBlog,
-  deleteBlog,
-} from "../Controllers/blogController.js";
+  createProject,
+  getAllProjects,
+  getProjectById,
+  updateProject,
+  deleteProject,
+} from "../Controllers/projectController.js";
 import authMiddleware from "../middleware/authMiddleware.js";
 import uploadMiddleware from "../middleware/uploadMiddleware.js";
 
 const router = express.Router();
 
-router.get("/", authMiddleware, getAllBlogs);
-router.get("/:id", authMiddleware, getBlogById);
+router.get("/", authMiddleware, getAllProjects);
+router.get("/:id", authMiddleware, getProjectById);
 router.post(
   "/",
   authMiddleware,
   uploadMiddleware.array("images", 5),
-  createBlog,
+  createProject,
 );
 router.patch(
   "/:id",
   authMiddleware,
   uploadMiddleware.array("images", 5),
-  updateBlog,
+  updateProject,
 );
-router.delete("/:id", authMiddleware, deleteBlog);
+router.delete("/:id", authMiddleware, deleteProject);
 
 export default router;

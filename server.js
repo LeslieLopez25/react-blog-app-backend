@@ -26,7 +26,7 @@ app.use(
 );
 
 app.get("/", (req, res) => {
-  res.send("Blog API is running");
+  res.send("Project API is running");
 });
 
 const PORT = process.env.PORT || 7000;
