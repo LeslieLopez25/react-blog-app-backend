@@ -6,25 +6,20 @@ import {
   updateProject,
   deleteProject,
 } from "../Controllers/projectController.js";
-import authMiddleware from "../middleware/authMiddleware.js";
+import { protect } from "../middleware/authMiddleware.js";
 import uploadMiddleware from "../middleware/uploadMiddleware.js";
 
 const router = express.Router();
 
-router.get("/", authMiddleware, getAllProjects);
-router.get("/:id", authMiddleware, getProjectById);
-router.post(
-  "/",
-  authMiddleware,
-  uploadMiddleware.array("images", 5),
-  createProject,
-);
+router.get("/", protect, getAllProjects);
+router.get("/:id", protect, getProjectById);
+router.post("/", protect, uploadMiddleware.array("images", 5), createProject);
 router.patch(
   "/:id",
-  authMiddleware,
+  protect,
   uploadMiddleware.array("images", 5),
   updateProject,
 );
-router.delete("/:id", authMiddleware, deleteProject);
+router.delete("/:id", protect, deleteProject);
 
 export default router;
