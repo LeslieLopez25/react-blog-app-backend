@@ -5,6 +5,11 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cors from "cors";
+import userRoutes from "./Routes/userRoutes.js";
+import authRoutes from "./Routes/authRoutes.js";
+import taskRoutes from "./Routes/taskRoutes.js";
+import projectRoutes from "./Routes/projectRoutes.js";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
@@ -18,6 +23,7 @@ mongoose
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 app.use(
   cors({
     origin: process.env.FRONTEND_URL,
@@ -26,8 +32,13 @@ app.use(
 );
 
 app.get("/", (req, res) => {
-  res.send("Project API is running");
+  res.send("Worksmith API is running");
 });
+
+app.use("/api/auth", authRoutes);
+app.use("/api/user", userRoutes);
+app.use("/api/project", projectRoutes);
+app.use("/api/task", taskRoutes);
 
 const PORT = process.env.PORT || 7000;
 app.listen(PORT, () => {
