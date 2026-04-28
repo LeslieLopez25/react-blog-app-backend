@@ -5,13 +5,13 @@ import {
   updatePassword,
   deleteUser,
 } from "../Controllers/userController.js";
-import { protect } from "../middleware/authMiddleware.js";
+import { authMiddleware } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.get("/profile", protect, getUser);
-router.patch("/profile", protect, updateUser);
-router.patch("/profile/password", protect, updatePassword);
-router.delete("/profile", protect, deleteUser);
+router.get("/profile", authMiddleware, getUser);
+router.patch("/profile", authMiddleware, updateUser);
+router.patch("/profile/password", authMiddleware, updatePassword);
+router.delete("/profile", authMiddleware, deleteUser);
 
 export default router;
