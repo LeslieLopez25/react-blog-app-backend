@@ -5,11 +5,11 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import userRoutes from "./Routes/userRoutes.js";
 import authRoutes from "./Routes/authRoutes.js";
 import taskRoutes from "./Routes/taskRoutes.js";
 import projectRoutes from "./Routes/projectRoutes.js";
-import cookieParser from "cookie-parser";
 
 dotenv.config();
 
