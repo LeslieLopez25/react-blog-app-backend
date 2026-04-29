@@ -24,12 +24,10 @@ export const register = async (req, res) => {
     });
 
     const savedUser = await user.save();
-    res
-      .status(201)
-      .json({
-        message: "Account created successfully",
-        user: { name: savedUser.name, email: savedUser.email },
-      });
+    res.status(201).json({
+      message: "Account created successfully",
+      user: { name: savedUser.name, email: savedUser.email },
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

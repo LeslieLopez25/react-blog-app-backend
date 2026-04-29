@@ -25,7 +25,7 @@ export const createProject = async (req, res) => {
 
 export const getAllProjects = async (req, res) => {
   try {
-    const projects = await Project.find().populate({ user: req.user?._id });
+    const projects = await Project.find().populate("user", "name email");
     res.status(200).json(projects);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -34,9 +34,10 @@ export const getAllProjects = async (req, res) => {
 
 export const getProjectById = async (req, res) => {
   try {
-    const project = await Project.findById(req.params.id).populate({
-      _id: req.user?._id,
-    });
+    const project = await Project.findById(req.params.id).populate(
+      "user",
+      "name email",
+    );
     if (!project) return res.status(404).json({ message: "Project not found" });
     res.status(200).json(project);
   } catch (error) {
@@ -46,7 +47,7 @@ export const getProjectById = async (req, res) => {
 
 export const updateProject = async (req, res) => {
   try {
-    const project = await Project.findByIdAndUpdate(
+    const project = await Project.findOneAndUpdate(
       {
         _id: req.params.id,
         user: req.user._id,
@@ -63,7 +64,7 @@ export const updateProject = async (req, res) => {
 
 export const deleteProject = async (req, res) => {
   try {
-    const project = await Project.findByIdAndDelete({
+    const project = await Project.findOneAndDelete({
       _id: req.params.id,
       user: req.user._id,
     });

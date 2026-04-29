@@ -36,9 +36,9 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/auth", authRoutes);
-app.use("/api/user", userRoutes);
-app.use("/api/project", projectRoutes);
-app.use("/api/task", taskRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/projects", projectRoutes);
+app.use("/api/tasks", taskRoutes);
 
 const PORT = process.env.PORT || 7000;
 app.listen(PORT, () => {

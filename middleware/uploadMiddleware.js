@@ -5,11 +5,8 @@ const storage = multer.diskStorage({
     cb(null, "uploads/");
   },
   filename: (req, file, cb) => {
-    cb(null, file.originalname);
-  },
-  filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, file.filename + "-" + uniqueSuffix);
+    cb(null, file.originalname + "-" + uniqueSuffix);
   },
 });
 
@@ -18,10 +15,8 @@ const fileFilter = (req, file, cb) => {
   if (allowTypes.includes(file.mimetype)) {
     cb(null, true);
   } else {
-    cb(null, false);
+    cb(new Error("Only .jpeg, .jpg and .png files are allowed!"));
   }
-
-  cb(new Error("Only .jpeg, .jpg and .png files are allowed!"));
 };
 
 const upload = multer({
