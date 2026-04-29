@@ -1,6 +1,8 @@
 import { setServers } from "node:dns/promises";
 setServers(["1.1.1.1", "8.8.8.8"]);
 
+dotenv.config();
+
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
@@ -10,8 +12,6 @@ import userRoutes from "./Routes/userRoutes.js";
 import authRoutes from "./Routes/authRoutes.js";
 import taskRoutes from "./Routes/taskRoutes.js";
 import projectRoutes from "./Routes/projectRoutes.js";
-
-dotenv.config();
 
 const MONGODB_URL = process.env.MONGO_URI;
 
