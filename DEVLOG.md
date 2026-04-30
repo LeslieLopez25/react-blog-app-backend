@@ -6,7 +6,7 @@ A personal devlog documenting the building process of Worksmith, an all-in-one p
 
 ## April 29, 2026
 
-### Project Kickoff & Naming
+### Project Kickoff
 
 Started this project as a simple private blog for tracking coding projects. Over the course of planning, the scope evolved into something broader — a full-stack project documentation tool for anyone who needs to track their work, progress, and ideas in one place.
 
